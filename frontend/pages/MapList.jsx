@@ -8,6 +8,13 @@ function MapList() {
     retun (
         <div>
             <Header/>
+            <body>
+                <h1>Restaurant Names</h1>
+                <ul>
+                    {/* {% for restaurant_name in restaurant_names %} */}
+                        <li>{{ restaurant_name }}</li>
+                </ul>
+            </body>
         </div>
     )
 }
