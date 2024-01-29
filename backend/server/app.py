@@ -1,43 +1,62 @@
-from flask import Flask, request, session, render_template
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_cors import CORS
-from flask_bcrypt import Bcrypt
 from dotenv import dotenv_values
 import requests
-#!! update models
-# from models import db, User, Connection, Meme, Response
+from models import db, Restaurant  # Import your models
+
+# Load environment variables
 config = dotenv_values(".env")
 
+# Initialize Flask app
+app = Flask(__name__)
+print(config)
+app.config['SQLALCHEMY_DATABASE_URI'] = config['DATABASE_URL']
+db.init_app(app)
 
-def get_fancy_restaurants(lat, lng):
+# Function to fetch data from the API and store in the database
+def fetch_and_store_restaurants(lat, lng):
     url = "https://maps-data.p.rapidapi.com/searchmaps.php"
-
-    querystring = {f"query":"fancy restaurants","limit":"10","country":"us","lang":"en","lat":{lat},"lng":{lng},"offset":"0","zoom":"13"}
-
+    querystring = {
+        "query": "fancy restaurants",
+        "limit": "10",
+        "country": "us",
+        "lang": "en",
+        "lat": lat,
+        "lng": lng,
+        "offset": "0",
+        "zoom": "13"
+    }
     headers = {
-        "X-RapidAPI-Key": "4578ad90c0msh7185e76eb4a1d1ap1676a0jsn80fa8c573e3d",
+        "X-RapidAPI-Key": config['RAPIDAPI_KEY'],
         "X-RapidAPI-Host": "maps-data.p.rapidapi.com"
     }
-
-    response = requests.get(url, headers=headers, params=querystring)
-
+    response = requests.get(url, headers=headers)
+    
     if response.ok:
         data = response.json()
         places = data.get('data', [])
-        restaurant_names = [place.get('name') for place in places]
-        print(restaurant_names)
-        return restaurant_names
+        
+        for place in places:
+            name = place.get('name')
+            restaurant = Restaurant(name=name)
+            db.session.add(restaurant)
+        
+        db.session.commit()
+        return True
     else:
         print(f"Error: {response.status_code} - {response.text}")
-        return []
+        return False
 
-get_fancy_restaurants(40.724510, -74.005680)
-app = Flask(__name__)
 @app.route('/')
 def display_restaurant_names():
-    # Get restaurant names
-    restaurant_names = get_fancy_restaurants(40.724510, -74.005680)
+    # Check if data is already stored in the database
+    restaurants = Restaurant.query.all()
+    if not restaurants:
+        # Fetch data from the API and store in the database
+        fetch_and_store_restaurants(40.724510, -74.005680)
+    
+    # Retrieve data from the database
+    restaurant_names = [restaurant.name for restaurant in restaurants]
     return render_template('index.html', restaurant_names=restaurant_names)
 
 if __name__ == '__main__':
