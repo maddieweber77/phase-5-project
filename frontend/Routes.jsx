@@ -4,7 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 // Import other components after the router imports
 import App from "./App";
 import ErrorPage from "./pages/ErrorPage";
-import Home from "./pages/MapList";
+import MapList from "./pages/MapList";
 import Login from "./pages/SignIn";
 import Profile from "./pages/Profile";
 
@@ -26,25 +26,14 @@ const Routes = createBrowserRouter([
                 errorElement: <ErrorPage />
             },
             {
-                path: "/Home",
-                element: <Home />,
+                path: "/MapList",
+                element: <MapList />,
                 errorElement: <ErrorPage />
             },
             {
                 path: "/Profile",
                 element: <Profile />,
                 errorElement: <ErrorPage />
-            },
-            {
-                path: "/Caption-Meme",
-                element: <Caption_Meme />,
-                errorElement: <ErrorPage />
-            },
-            {
-                path: "/Battle-Memes",
-                element: <Battle_Memes />,
-                errorElement: <ErrorPage />,
-                loader: memeLoader
             }
         ]
     }
