@@ -26,6 +26,7 @@ def get_fancy_restaurants(lat, lng):
         data = response.json()
         places = data.get('data', [])
         restaurant_names = [place.get('name') for place in places]
+        print(restaurant_names)
         return restaurant_names
     else:
         print(f"Error: {response.status_code} - {response.text}")
