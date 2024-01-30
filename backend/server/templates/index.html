@@ -7,17 +7,18 @@
 </head>
 <body>
     <h1>Walk In</h1>
-    <!--! below might need to be changed bc unsure if we can pull the party size -->
+    <!-- Form and button to get location and fetch restaurants -->
     <form id="party-size-form">
         <label for="party-size">Party Size:</label>
         <input type="number" id="party-size" name="party-size" min="1" required>
+        <button id="getLocationBtn" type="button">See Restaurants with Availability</button>
     </form>
-    <button id="getLocationBtn" type="submit">See Restaurants with Availability</button>
     
-    <div id="restaurantList"></div>
+    <!-- List of restaurants -->
+    <ul id="restaurantList"></ul>
 
     <script>
-        document.getElementById('getLocationBtn').addEventListener('click', async () => {
+        document.getElementById('getLocationBtn').addEventListener('click', () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const latitude = position.coords.latitude;
@@ -31,24 +32,22 @@
                         body: `latitude=${latitude}&longitude=${longitude}`
                     });
                     
-                    const restaurantData = await response.json();
+                    const restaurants = await response.json();
                     
-                    const restaurantListContainer = document.getElementById('restaurantList');
-                    restaurantListContainer.innerHTML = '';
+                    const restaurantList = document.getElementById('restaurantList');
+                    restaurantList.innerHTML = '';
                     
-                    restaurantData.forEach(restaurant => {
-                        const restaurantDiv = document.createElement('div');
-                        restaurantDiv.innerHTML = `
-                            <h2>${restaurant.name}</h2>
-                            <p><strong>Business ID:</strong> ${restaurant.business_id}</p>
-                            <p><strong>Phone Number:</strong> ${restaurant.phone_number}</p>
-                            <p><strong>Full Address:</strong> ${restaurant.full_address}</p>
-                            <p><strong>Review Count:</strong> ${restaurant.review_count}</p>
-                            <p><strong>Rating:</strong> ${restaurant.rating}</p>
-                            <p><strong>Website:</strong> ${restaurant.website}</p>
-                            <button>Book</button>
-                        `;
-                        restaurantListContainer.appendChild(restaurantDiv);
+                    restaurants.forEach(restaurant => {
+                        const listItem = document.createElement('li');
+                        const bookButton = document.createElement('button');
+                        bookButton.textContent = 'Book';
+                        bookButton.addEventListener('click', async () => {
+                            const partySize = document.getElementById('party-size').value;
+                            await bookRestaurant(restaurant, partySize);
+                        });
+                        listItem.textContent = `${restaurant.name} - ${restaurant.full_address}`;
+                        listItem.appendChild(bookButton);
+                        restaurantList.appendChild(listItem);
                     });
                 }, (error) => {
                     console.error('Error getting location:', error);
@@ -57,6 +56,25 @@
                 console.error('Geolocation is not supported by this browser.');
             }
         });
+
+        async function bookRestaurant(restaurant, partySize) {
+            const response = await fetch('/book_restaurant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    restaurant_id: restaurant.business_id,
+                    restaurant_name: restaurant.name,
+                    party_size: partySize
+                })
+            });
+            if (response.ok) {
+                console.log('Restaurant booked successfully.');
+            } else {
+                console.error('Error booking restaurant:', response.statusText);
+            }
+        }
     </script>
 </body>
 </html>

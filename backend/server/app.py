@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from dotenv import dotenv_values
-from models import User, Restaurant
+from models import User, Restaurant, RestaurantBooking
 import requests
 
 config = dotenv_values(".env")
@@ -54,6 +54,10 @@ def get_fancy_restaurants(lat, lng):
         print(f"Error: {response.status_code} - {response.text}")
         return []
 
+def get_current_user_id():
+    # Assuming you're using Flask's session to store user information
+    return session.get('user_id')
+
 # Route to display the index page
 @app.route('/')
 def index():
@@ -71,6 +75,22 @@ def get_restaurants():
     
     # Return JSON response with restaurant names
     return jsonify(restaurants)
+
+@app.route('/book_restaurant', methods=['POST'])
+def book_restaurant():
+    data = request.json
+    business_id = data.get('businessId')
+    restaurant_name = data.get('restaurantName')
+
+    # Assuming you have a User object or some way to get the user ID
+    user_id = get_current_user_id()  # Implement this function based on your setup
+
+    # Assuming you have a RestaurantBooking model for the database table
+    booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name)
+    db.session.add(booking)
+    db.session.commit()
+
+    return jsonify({'message': 'Booking successful'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
