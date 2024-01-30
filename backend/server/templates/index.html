@@ -12,9 +12,9 @@
         <label for="party-size">Party Size:</label>
         <input type="number" id="party-size" name="party-size" min="1" required>
     </form>
-    <button id="getLocationBtn">See Restaurants with Availability</button>
+    <button id="getLocationBtn" type="submit">See Restaurants with Availability</button>
     
-    <ul id="restaurantList"></ul>
+    <div id="restaurantList"></div>
 
     <script>
         document.getElementById('getLocationBtn').addEventListener('click', async () => {
@@ -32,24 +32,23 @@
                     });
                     
                     const restaurantData = await response.json();
-                    console.log('Response data:', restaurantData);
                     
-                    const restaurantList = document.getElementById('restaurantList');
-                    restaurantList.innerHTML = '';
+                    const restaurantListContainer = document.getElementById('restaurantList');
+                    restaurantListContainer.innerHTML = '';
                     
                     restaurantData.forEach(restaurant => {
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `
-                            <p>Name: ${restaurant.name}</p>
-                            <p>Type: ${restaurant.type[0]}</p>
-                            <p>Business ID: ${restaurant.business_id}</p>
-                            <p>Phone Number: ${restaurant.phone_number}</p>
-                            <p>Address: ${restaurant.full_address}</p>
-                            <p>Review Count: ${restaurant.review_count}</p>
-                            <p>Rating: ${restaurant.rating}</p>
-                            <p>Website: <a href="${restaurant.website}" target="_blank">${restaurant.website}</a></p>
+                        const restaurantDiv = document.createElement('div');
+                        restaurantDiv.innerHTML = `
+                            <h2>${restaurant.name}</h2>
+                            <p><strong>Business ID:</strong> ${restaurant.business_id}</p>
+                            <p><strong>Phone Number:</strong> ${restaurant.phone_number}</p>
+                            <p><strong>Full Address:</strong> ${restaurant.full_address}</p>
+                            <p><strong>Review Count:</strong> ${restaurant.review_count}</p>
+                            <p><strong>Rating:</strong> ${restaurant.rating}</p>
+                            <p><strong>Website:</strong> ${restaurant.website}</p>
+                            <button>Book</button>
                         `;
-                        restaurantList.appendChild(listItem);
+                        restaurantListContainer.appendChild(restaurantDiv);
                     });
                 }, (error) => {
                     console.error('Error getting location:', error);
