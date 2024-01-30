@@ -4,10 +4,17 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from dotenv import dotenv_values
+from models import User, Restaurant
 import requests
-#!! update models
-# from models import db, User, Connection, Meme, Response
+
 config = dotenv_values(".env")
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  # Update with your database URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize SQLAlchemy instance with the Flask app
+db = SQLAlchemy(app)
 
 
 def get_fancy_restaurants(lat, lng):
@@ -33,12 +40,24 @@ def get_fancy_restaurants(lat, lng):
         return []
 
 get_fancy_restaurants(40.724510, -74.005680)
-app = Flask(__name__)
+
+# Route to display the index page
 @app.route('/')
-def display_restaurant_names():
-    # Get restaurant names
-    restaurant_names = get_fancy_restaurants(40.724510, -74.005680)
-    return render_template('index.html', restaurant_names=restaurant_names)
+def index():
+    return render_template('index.html')
+
+# Route to fetch fancy restaurants using user's current location
+@app.route('/get_restaurants', methods=['POST'])
+def get_restaurants():
+    # Get latitude and longitude from request
+    lat = request.form['latitude']
+    lng = request.form['longitude']
+    
+    # Fetch fancy restaurants using user's location
+    restaurant_names = get_fancy_restaurants(lat, lng)
+    
+    # Return JSON response with restaurant names
+    return jsonify(restaurant_names)
 
 if __name__ == '__main__':
     app.run(debug=True)
