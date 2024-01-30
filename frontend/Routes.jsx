@@ -8,12 +8,6 @@ import MapList from "./pages/MapList";
 import Login from "./pages/SignIn";
 import Profile from "./pages/Profile";
 
-async function memeLoader() {
-    const restaurants = await fetch("http://localhost:3000/restaurants")
-    const users = await fetch("http://localhost:3000/users")
-    return [await restaurants.json(), await users.json()]
-
-}
 const Routes = createBrowserRouter([
     {
         path: "/",
@@ -40,5 +34,3 @@ const Routes = createBrowserRouter([
 ]);
 
 export default Routes;
-
-
