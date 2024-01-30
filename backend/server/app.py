@@ -39,8 +39,6 @@ def get_fancy_restaurants(lat, lng):
         print(f"Error: {response.status_code} - {response.text}")
         return []
 
-get_fancy_restaurants(40.724510, -74.005680)
-
 # Route to display the index page
 @app.route('/')
 def index():
