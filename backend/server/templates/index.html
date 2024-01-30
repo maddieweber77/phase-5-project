@@ -32,6 +32,7 @@
                     });
                     
                     const restaurantData = await response.json();
+                    console.log('Response data:', restaurantData);
                     
                     const restaurantList = document.getElementById('restaurantList');
                     restaurantList.innerHTML = '';
@@ -40,6 +41,7 @@
                         const listItem = document.createElement('li');
                         listItem.innerHTML = `
                             <p>Name: ${restaurant.name}</p>
+                            <p>Type: ${restaurant.type[0]}</p>
                             <p>Business ID: ${restaurant.business_id}</p>
                             <p>Phone Number: ${restaurant.phone_number}</p>
                             <p>Address: ${restaurant.full_address}</p>

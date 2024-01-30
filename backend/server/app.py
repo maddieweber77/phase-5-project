@@ -43,7 +43,8 @@ def get_fancy_restaurants(lat, lng):
                 'full_address': place.get('full_address'),
                 'review_count': place.get('review_count'),
                 'rating': place.get('rating'),
-                'website': place.get('website')
+                'website': place.get('website'),
+                'type': place.get('types')
             }
             restaurants_info.append(restaurant_info)
         
