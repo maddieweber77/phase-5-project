@@ -32,9 +32,23 @@ def get_fancy_restaurants(lat, lng):
     if response.ok:
         data = response.json()
         places = data.get('data', [])
-        restaurant_names = [place.get('name') for place in places]
-        print(restaurant_names)
-        return restaurant_names
+        
+        # Extracting multiple fields for each restaurant
+        restaurants_info = []
+        for place in places:
+            restaurant_info = {
+                'name': place.get('name'),
+                'business_id': place.get('business_id'),
+                'phone_number': place.get('phone_number'),
+                'full_address': place.get('full_address'),
+                'review_count': place.get('review_count'),
+                'rating': place.get('rating'),
+                'website': place.get('website')
+            }
+            restaurants_info.append(restaurant_info)
+        
+        print(restaurants_info)
+        return restaurants_info
     else:
         print(f"Error: {response.status_code} - {response.text}")
         return []
@@ -52,10 +66,10 @@ def get_restaurants():
     lng = request.form['longitude']
     
     # Fetch fancy restaurants using user's location
-    restaurant_names = get_fancy_restaurants(lat, lng)
+    restaurants = get_fancy_restaurants(lat, lng)
     
     # Return JSON response with restaurant names
-    return jsonify(restaurant_names)
+    return jsonify(restaurants)
 
 if __name__ == '__main__':
     app.run(debug=True)

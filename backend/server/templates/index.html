@@ -12,12 +12,12 @@
         <label for="party-size">Party Size:</label>
         <input type="number" id="party-size" name="party-size" min="1" required>
     </form>
-    <button id="getLocationBtn" type="submit">See Restaurants with Availability</button>
+    <button id="getLocationBtn">See Restaurants with Availability</button>
     
     <ul id="restaurantList"></ul>
 
     <script>
-        document.getElementById('getLocationBtn').addEventListener('click', () => {
+        document.getElementById('getLocationBtn').addEventListener('click', async () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const latitude = position.coords.latitude;
@@ -31,14 +31,22 @@
                         body: `latitude=${latitude}&longitude=${longitude}`
                     });
                     
-                    const restaurantNames = await response.json();
+                    const restaurantData = await response.json();
                     
                     const restaurantList = document.getElementById('restaurantList');
                     restaurantList.innerHTML = '';
                     
-                    restaurantNames.forEach(name => {
+                    restaurantData.forEach(restaurant => {
                         const listItem = document.createElement('li');
-                        listItem.textContent = name;
+                        listItem.innerHTML = `
+                            <p>Name: ${restaurant.name}</p>
+                            <p>Business ID: ${restaurant.business_id}</p>
+                            <p>Phone Number: ${restaurant.phone_number}</p>
+                            <p>Address: ${restaurant.full_address}</p>
+                            <p>Review Count: ${restaurant.review_count}</p>
+                            <p>Rating: ${restaurant.rating}</p>
+                            <p>Website: <a href="${restaurant.website}" target="_blank">${restaurant.website}</a></p>
+                        `;
                         restaurantList.appendChild(listItem);
                     });
                 }, (error) => {
