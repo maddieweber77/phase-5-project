@@ -7,8 +7,12 @@
 </head>
 <body>
     <h1>Walk In</h1>
-    
-    <button id="getLocationBtn">See Restaurants with Availability</button>
+    <!--! below might need to be changed bc unsure if we can pull the party size -->
+    <form id="party-size-form">
+        <label for="party-size">Party Size:</label>
+        <input type="number" id="party-size" name="party-size" min="1" required>
+    </form>
+    <button id="getLocationBtn" type="submit">See Restaurants with Availability</button>
     
     <ul id="restaurantList"></ul>
 
