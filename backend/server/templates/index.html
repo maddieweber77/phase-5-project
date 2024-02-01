@@ -20,7 +20,7 @@
     <script>
         document.getElementById('getLocationBtn').addEventListener('click', () => {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(async (position) => {
+                navigator.geolocation.ition(async (position) => {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     

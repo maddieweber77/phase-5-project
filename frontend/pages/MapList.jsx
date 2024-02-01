@@ -10,23 +10,31 @@ const MapList = () => {
 
     const handleGetLocation = async () => {
         try {
-            const position = await getCurrentPosition();
-            const { latitude, longitude } = position.coords;
-
-            const response = await fetch('/api/get_restaurants', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `latitude=${latitude}&longitude=${longitude}`,
-            });
-
-            const data = await response.json();
-            setRestaurants(data);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const { latitude, longitude } = position.coords;
+    
+                    const response = await fetch('/api/get_restaurants', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `latitude=${latitude}&longitude=${longitude}`,
+                    });
+    
+                    const data = await response.json();
+                    setRestaurants(data);
+                }, (error) => {
+                    console.error('Error getting location:', error);
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
         } catch (error) {
             console.error('Error getting location:', error);
         }
     };
+    
 
     const bookRestaurant = async (restaurant) => {
         try {
