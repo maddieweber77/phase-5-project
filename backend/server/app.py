@@ -1,4 +1,5 @@
 from flask import Flask, request, session, render_template, jsonify
+from extensions import db  # Import db from extensions.py
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -13,7 +14,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  # Update with your database URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)  # Initialize db with app context
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 
