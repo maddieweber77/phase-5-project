@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { Navigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { useUser } from "../UserContext";
 
 const MapList = () => {
     const [restaurants, setRestaurants] = useState([]);
+    const {user, setUser} = useUser()
     const [partySize, setPartySize] = useState(1);
 
     const handleGetLocation = async () => {
@@ -9,7 +13,7 @@ const MapList = () => {
             const position = await getCurrentPosition();
             const { latitude, longitude } = position.coords;
 
-            const response = await fetch('/get_restaurants', {
+            const response = await fetch('/api/get_restaurants', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -26,7 +30,7 @@ const MapList = () => {
 
     const bookRestaurant = async (restaurant) => {
         try {
-            const response = await fetch('/book_restaurant', {
+            const response = await fetch('/api/book_restaurant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

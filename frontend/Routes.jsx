@@ -3,8 +3,8 @@ import { createBrowserRouter } from 'react-router-dom';
 
 // Import other components after the router imports
 import App from "./App";
-import Login from "./pages/1Login";
-import MapList from "./pages/3MapList";
+import Login from "./pages/Login";
+import MapList from "./pages/MapList";
 import ErrorPage from "./pages/ErrorPage";
 import Profile from "./pages/Profile";
 
