@@ -20,7 +20,14 @@ migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 
 # ***************Authentication GET, POST, and DELETE requests**********************
-@app.get('/check_session')
+
+@app.get('/')
+def index():
+    return "Hello world"
+
+
+
+@app.get('/api/check_session')
 def check_session():
     user = db.session.get(User, session.get(id))
     # print to check the session object
@@ -31,7 +38,7 @@ def check_session():
 
     return {}
 
-@app.delete('/logout')
+@app.delete('/api/logout')
 def logout():
 
     try: 
@@ -94,12 +101,13 @@ def get_current_user_id():
     return session.get('user_id')
 
 # Route to display the map list page
-@app.route('/maplist')
+@app.route('/api/MapList')
 def map_list():
     return render_template('MapList.jsx')
 
 # Route to fetch fancy restaurants using user's current location
-@app.route('/get_restaurants', methods=['POST'])
+#! does this need a route?
+@app.route('/api/get_restaurants', methods=['POST'])
 def get_restaurants():
     # Get latitude and longitude from request
     lat = request.form['latitude']
@@ -114,7 +122,7 @@ def get_restaurants():
     # Return JSON response with restaurant names
     return jsonify(restaurants)
 
-@app.route('/book_restaurant', methods=['POST'])
+@app.route('/api/book_restaurant', methods=['POST'])
 def book_restaurant():
     data = request.json
     business_id = data.get('businessId')
@@ -130,7 +138,7 @@ def book_restaurant():
 
     return jsonify({'message': 'Booking successful'}), 200
 
-@app.post('/')
+@app.post('/api/login')
 def login():
     data = request.json
 

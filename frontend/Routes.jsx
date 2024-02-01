@@ -3,9 +3,9 @@ import { createBrowserRouter } from 'react-router-dom';
 
 // Import other components after the router imports
 import App from "./App";
+import Login from "./pages/1Login";
+import MapList from "./pages/3MapList";
 import ErrorPage from "./pages/ErrorPage";
-import MapList from "./pages/MapList";
-import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 
 const Routes = createBrowserRouter([
@@ -15,17 +15,17 @@ const Routes = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: "/Login",
+                path: "/api/Login",
                 element: <Login />,
                 errorElement: <ErrorPage />
             },
             {
-                path: "/MapList",
+                path: "/api/MapList",
                 element: <MapList />,
                 errorElement: <ErrorPage />
             },
             {
-                path: "/Profile",
+                path: "/api/Profile",
                 element: <Profile />,
                 errorElement: <ErrorPage />
             }

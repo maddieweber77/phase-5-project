@@ -1,11 +1,11 @@
 from extensions import db  # Import db from extensions.py
-# from sqlalchemy import MetaData
-# from sqlalchemy.orm import validates
-# from sqlalchemy.ext.associationproxy import association_proxy
-# from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy import MetaData
+from sqlalchemy.orm import validates
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy_serializer import SerializerMixin
 
 
-class User(db.Model):
+class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -15,7 +15,7 @@ class User(db.Model):
     # Establish one-to-many relationship with RestaurantBooking
     bookings = db.relationship('RestaurantBooking', backref='user', lazy=True)
 
-class RestaurantBooking(db.Model):
+class RestaurantBooking(db.Model, SerializerMixin):
     __tablename__ = 'restaurant_bookings'
 
     id = db.Column(db.Integer, primary_key=True)

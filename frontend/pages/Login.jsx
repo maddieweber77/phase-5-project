@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
-import LoginForm from "../components/LoginForm";
+import LoginForm from "./pages/LoginForm";
 
 
 function Login(){
