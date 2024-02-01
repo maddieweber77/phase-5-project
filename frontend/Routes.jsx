@@ -15,17 +15,17 @@ const Routes = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: "/api/Login",
+                path: "/Login",
                 element: <Login />,
                 errorElement: <ErrorPage />
             },
             {
-                path: "/api/MapList",
+                path: "/MapList",
                 element: <MapList />,
                 errorElement: <ErrorPage />
             },
             {
-                path: "/api/Profile",
+                path: "/Profile",
                 element: <Profile />,
                 errorElement: <ErrorPage />
             }

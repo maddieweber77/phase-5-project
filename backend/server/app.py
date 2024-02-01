@@ -26,6 +26,16 @@ def index():
     return "Hello world"
 
 
+#RestaurantBooking Routes
+@app.get('/api/bookings/<int:id>')
+def get_bookings_by_id(id):
+    user = db.session.get(User, id)
+    if not user:
+        return {"error", "User not found"}, 404
+    bookings = User.query.filter(User.id == id).all()
+    return [b.to_dict(0) for b in bookings], 200
+
+
 
 @app.get('/api/check_session')
 def check_session():
