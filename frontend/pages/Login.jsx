@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
-import LoginForm from "./pages/LoginForm";
+import LoginForm from "/Users/maddieweber/Development/code/phase-5/phase-5-project/frontend/pages/LoginForm.jsx";
 
 
 function Login(){
