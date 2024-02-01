@@ -138,8 +138,11 @@ def book_restaurant():
     business_id = data.get('businessId')
     restaurant_name = data.get('restaurantName')
 
+    DEFAULT_USER_ID = 1
+
     # Assuming you have a User object or some way to get the user ID
-    user_id = get_current_user_id()  # Implement this function based on your setup
+    #! will need to fix below when u create login stuff
+    user_id = get_current_user_id()  or DEFAULT_USER_ID # Implement this function based on your setup
 
     # Assuming you have a RestaurantBooking model for the database table
     booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name)
