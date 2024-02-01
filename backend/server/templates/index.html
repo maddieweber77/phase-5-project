@@ -3,14 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Names</title>
+    <title>Walk In</title>
 </head>
 <body>
-    <h1>Restaurant Names</h1>
-    <ul>
-        {% for restaurant_name in restaurant_names %}
-            <li>{{ restaurant_name }}</li>
-        {% endfor %}
-    </ul>
+    <h1>Walk In</h1>
+    <!-- Form and button to get location and fetch restaurants -->
+    <form id="party-size-form">
+        <label for="party-size">Party Size:</label>
+        <input type="number" id="party-size" name="party-size" min="1" required>
+        <button id="getLocationBtn" type="button">See Restaurants with Availability</button>
+    </form>
+    
+    <!-- List of restaurants -->
+    <ul id="restaurantList"></ul>
+
+    <script>
+        document.getElementById('getLocationBtn').addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    
+                    const response = await fetch('/get_restaurants', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `latitude=${latitude}&longitude=${longitude}`
+                    });
+                    
+                    const restaurants = await response.json();
+                    
+                    const restaurantList = document.getElementById('restaurantList');
+                    restaurantList.innerHTML = '';
+                    
+                    restaurants.forEach(restaurant => {
+                        const listItem = document.createElement('li');
+                        const bookButton = document.createElement('button');
+                        bookButton.textContent = 'Book';
+                        bookButton.addEventListener('click', async () => {
+                            const partySize = document.getElementById('party-size').value;
+                            await bookRestaurant(restaurant, partySize);
+                        });
+                        listItem.textContent = `${restaurant.name} - ${restaurant.full_address}`;
+                        listItem.appendChild(bookButton);
+                        restaurantList.appendChild(listItem);
+                    });
+                }, (error) => {
+                    console.error('Error getting location:', error);
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+        });
+
+        async function bookRestaurant(restaurant, partySize) {
+            const response = await fetch('/book_restaurant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    businessId: restaurant.business_id,
+                    restaurantName: restaurant.name,
+                    party_size: partySize
+                })
+            });
+            if (response.ok) {
+                console.log('Restaurant booked successfully.');
+            } else {
+                console.error('Error booking restaurant:', response.statusText);
+            }
+        }
+    </script>
 </body>
 </html>
