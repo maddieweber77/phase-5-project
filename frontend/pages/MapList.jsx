@@ -62,7 +62,6 @@ const MapList = () => {
 
     return (
         <div>
-            <h1>Walk In</h1>
             <form id="party-size-form">
                 <label htmlFor="party-size">Party Size:</label>
                 <input type="number" id="party-size" name="party-size" min="1" value={partySize} onChange={(e) => setPartySize(e.target.value)} required />
