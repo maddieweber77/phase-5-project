@@ -1,5 +1,6 @@
 from flask import Flask, request, session, render_template, jsonify
 from extensions import db  # Import db from extensions.py
+from flask_cors import CORS 
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -10,12 +11,35 @@ import requests
 config = dotenv_values(".env")
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  # Update with your database URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)  # Initialize db with app context
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
+
+# ***************Authentication GET, POST, and DELETE requests**********************
+@app.get('/check_session')
+def check_session():
+    user = db.session.get(User, session.get(id))
+    # print to check the session object
+    print(session)
+
+    if user:
+        return user.to_dict(['-password_hash']), 200
+
+    return {}
+
+@app.delete('/logout')
+def logout():
+
+    try: 
+        session.pop(id)
+        return {"Message": "Logged out"}, 200
+    
+    except:
+        return {'Message': 'No user logged in'}, 404
 
 
 def get_fancy_restaurants(lat, lng):
@@ -69,10 +93,10 @@ def get_current_user_id():
     # Assuming you're using Flask's session to store user information
     return session.get('user_id')
 
-# Route to display the index page
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Route to display the map list page
+@app.route('/maplist')
+def map_list():
+    return render_template('MapList.jsx')
 
 # Route to fetch fancy restaurants using user's current location
 @app.route('/get_restaurants', methods=['POST'])

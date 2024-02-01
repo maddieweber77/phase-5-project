@@ -1,22 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useLoaderData } from "react-router-dom";
-import Header from "../components/Header";
-import RestaurantList from "src/components/RestaurantList.jsx"
+import React, { useState } from 'react';
 
-function MapList() {
+const MapList = () => {
+    const [restaurants, setRestaurants] = useState([]);
+    const [partySize, setPartySize] = useState(1);
 
-    retun (
+    const handleGetLocation = async () => {
+        try {
+            const position = await getCurrentPosition();
+            const { latitude, longitude } = position.coords;
+
+            const response = await fetch('/get_restaurants', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `latitude=${latitude}&longitude=${longitude}`,
+            });
+
+            const data = await response.json();
+            setRestaurants(data);
+        } catch (error) {
+            console.error('Error getting location:', error);
+        }
+    };
+
+    const bookRestaurant = async (restaurant) => {
+        try {
+            const response = await fetch('/book_restaurant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    businessId: restaurant.business_id,
+                    restaurantName: restaurant.name,
+                    party_size: partySize,
+                }),
+            });
+
+            if (response.ok) {
+                console.log('Restaurant booked successfully.');
+            } else {
+                console.error('Error booking restaurant:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error booking restaurant:', error);
+        }
+    };
+
+    return (
         <div>
-            <Header/>
-            <body>
-                <h1>Restaurant Names</h1>
-                <ul>
-                    {/* {% for restaurant_name in restaurant_names %} */}
-                        <li>{{ restaurant_name }}</li>
-                </ul>
-            </body>
+            <h1>Walk In</h1>
+            <form id="party-size-form">
+                <label htmlFor="party-size">Party Size:</label>
+                <input type="number" id="party-size" name="party-size" min="1" value={partySize} onChange={(e) => setPartySize(e.target.value)} required />
+                <button id="getLocationBtn" type="button" onClick={handleGetLocation}>See Restaurants with Availability</button>
+            </form>
+
+            <ul id="restaurantList">
+                {restaurants.map((restaurant) => (
+                    <li key={restaurant.business_id}>
+                        {restaurant.name} - {restaurant.full_address}
+                        <button onClick={() => bookRestaurant(restaurant)}>Book</button>
+                    </li>
+                ))}
+            </ul>
         </div>
-    )
-}
+    );
+};
 
 export default MapList;
