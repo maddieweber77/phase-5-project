@@ -7,6 +7,7 @@ from flask_bcrypt import Bcrypt
 from dotenv import dotenv_values
 from models import User, RestaurantBooking
 import requests
+import random
 
 config = dotenv_values(".env")
 
@@ -99,8 +100,11 @@ def get_fancy_restaurants(lat, lng):
                 'website': place.get('website'),
                 'type': place.get('types')
             }
+            bid_per_person = random.randint(10, 100)
+            restaurant_info['bid_per_person'] = bid_per_person
             restaurants_info.append(restaurant_info)
         
+        print("printing restaurants_info")
         print(restaurants_info)
         return restaurants_info
     else:
