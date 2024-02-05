@@ -22,6 +22,7 @@ class RestaurantBooking(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Define the foreign key constraint
     business_id = db.Column(db.String, nullable=False)
     restaurant_name = db.Column(db.String, nullable=False)
-    # add party size
+    #! add party size. make sure you can do other things than 2
+    party_size = db.Column(db.Integer, default = 2)
 
     # Define other columns for the RestaurantBooking table

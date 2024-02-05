@@ -134,6 +134,7 @@ def get_restaurants():
 
 @app.route('/api/book_restaurant', methods=['POST'])
 def book_restaurant():
+    print('in bookRestaurant')
     data = request.json
     business_id = data.get('businessId')
     restaurant_name = data.get('restaurantName')
