@@ -8,6 +8,7 @@ import Header from "../components/Header";
 const MapList = () => {
 
     const [userLocation, setUserLocation] = useState(null);
+    const [errorMessages, setErrorMessages] = useState({});
     const [restaurants, setRestaurants] = useState([]);
     const {user, setUser} = useUser()
     const [loading, setLoading] = useState(false); // Add loading state
@@ -86,7 +87,10 @@ const MapList = () => {
         const newBidAmount = parseInt(bidInput.value, 10);
     
         if (isNaN(newBidAmount)) {
-            console.error('Please enter a valid bid amount.');
+            setErrorMessages({
+                ...errorMessages,
+                [restaurant.business_id]: 'Please enter a valid bid amount.'
+            });
             return;
         }
     
@@ -94,9 +98,18 @@ const MapList = () => {
         const minimumBidAmount = currentBidPerPerson * partySize + 10;
     
         if (newBidAmount < minimumBidAmount) {
-            console.error('Bid amount must be at least $10 more than the current bid amount.');
+            setErrorMessages({
+                ...errorMessages,
+                [restaurant.business_id]: 'Bid amount must be at least $10 more than the current bid amount.'
+            });
             return;
         }
+    
+        // Clear error message if bid amount is valid
+        setErrorMessages({
+            ...errorMessages,
+            [restaurant.business_id]: ""
+        });
     
         // Proceed with booking if bid amount is valid
         bookRestaurant(restaurant, partySize, newBidAmount);
@@ -138,6 +151,7 @@ const MapList = () => {
                             min={restaurant.bid_per_person * partySize + 10}
                         />
                         <button onClick={() => handleBookButtonClick(restaurant, partySize)}>Book</button>
+                        {errorMessages[restaurant.business_id] && <p style={{ color: 'red' }}>{errorMessages[restaurant.business_id]}</p>}
 
         </div>
     ))}
