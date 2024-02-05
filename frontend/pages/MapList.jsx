@@ -99,12 +99,20 @@ const MapList = () => {
             ) : (
                 <div id="restaurantList">
                     {restaurants.map((restaurant) => (
-                        <div key={restaurant.business_id} className="restaurant-container">
-                            <h3>{restaurant.name}</h3>
-                            <p>{restaurant.full_address}</p>
-                            <button onClick={() => bookRestaurant(restaurant, partySize)}>Book</button>
-                        </div>
-                    ))}
+                    <div key={restaurant.business_id} className="restaurant-container">
+                        <h3>{restaurant.name}</h3>
+                        <p>{restaurant.full_address}</p>
+                        <label htmlFor={`bid-${restaurant.business_id}`}>Bid Amount:</label>
+                        <input
+                            type="number"
+                            id={`bid-${restaurant.business_id}`}
+                            name={`bid-${restaurant.business_id}`}
+                            placeholder="Enter bid amount"
+                            min="0"
+                        />
+                        <button onClick={() => bookRestaurant(restaurant, partySize)}>Book</button>
+        </div>
+    ))}
                 </div>
             )}
         </div>
