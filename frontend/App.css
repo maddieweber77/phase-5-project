@@ -118,3 +118,53 @@ body {
 .form-container button:hover {
     background-color: #0056b3;
 }
+
+
+
+/*!!!!!!!!!!!!!! Login Form !!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/* Container for the login form */
+.login-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+}
+
+/* CSS for login form container */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    max-width: 400px; /* Set max width to prevent form from stretching too wide */
+    margin: 0 auto; /* Center the form horizontally */
+    border-top-left-radius: 0; /* Straight top left corner */
+    border-top-right-radius: 0; /* Straight top right corner */
+}
+
+.login-text {
+    margin-bottom: 10px;
+}
+
+.login-input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#login-submit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #55cb6f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#login-submit-button:hover {
+    background-color: #0056b3;
+}

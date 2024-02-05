@@ -32,38 +32,31 @@ function LoginForm() {
     }
 
     return (
-        <div>
-            <div className="header-container">
-            <div className="logo-container">
-                <img
-                    src="/assets/BiteBid.png"
-                    width="100%"
-                    alt="Bite Bid"
-                />
+        <div className="page-container"> {/* Apply container style to center content */}
+            <Header />
+            <div className="form-container"> {/* Apply form container style */}
+                <form id='login-form' onSubmit={handleLoginSubmit}>
+                    <label className='login-text'>Username:</label>
+                    <input
+                        type='text'
+                        placeholder="Enter your username"
+                        className='login-input'
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <label className='login-text'>Password:</label>
+                    <input
+                        type='password'
+                        placeholder="Enter your password"
+                        className='login-input'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button id='login-submit-button' type='submit'>Submit</button>
+                </form>
             </div>
-            </div>
-            <form id='login-form' onSubmit={handleLoginSubmit}>
-                <label className='login-text'>Username:</label>
-                <input
-                    type='text'
-                    placeholder="Enter your username"
-                    className='login-input'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <label className='login-text'>Password:</label>
-                <input
-                    type='password'
-                    placeholder="Enter your password"
-                    className='login-input'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button id='login-submit-button' type='submit'>Submit</button>
-            </form>
         </div>
-        
     );
-}
+};
 
 export default LoginForm;

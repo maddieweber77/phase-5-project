@@ -157,7 +157,7 @@ const MapList = () => {
                         <h3>{restaurant.name}</h3>
                         <p>{restaurant.full_address}</p>
                         <p>Bid amount: ${restaurant.bid_per_person*partySize}, bid per person: ${restaurant.bid_per_person}</p>
-                        <label htmlFor={`bid-${restaurant.business_id}`}>Bid Amount:</label>
+                        <label htmlFor={`bid-${restaurant.business_id}`}>Bid Amount: </label>
                         <input
                             type="number"
                             id={`bid-${restaurant.business_id}`}
