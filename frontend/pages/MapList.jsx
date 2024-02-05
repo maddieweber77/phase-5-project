@@ -48,10 +48,20 @@ const MapList = () => {
     };
     
     const handlePartySizeChange = (e) => {
-        const newSize = parseInt(e.target.value, 10); // Parse the value as an integer
-        console.log("party size", newSize);
+    const newSize = parseInt(e.target.value, 10); // Parse the value as an integer
+    console.log("party size", newSize);
+
+    if (newSize > 10) {
+        setErrorMessages({
+            partySize: "Party size cannot be greater than 10"
+        });
+    } else {
         setPartySize(newSize);
-    };
+        setErrorMessages({
+            partySize: ""
+        });
+    }
+};
 
     const bookRestaurant = async (restaurant, partySize) => {
         const bidAmount = document.getElementById(`bid-${restaurant.business_id}`).value;
