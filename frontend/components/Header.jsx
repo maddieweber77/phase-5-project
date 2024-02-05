@@ -12,16 +12,13 @@ function Header(){
                 width="20%"
                 alt="Bite Bid"
             />  
-            <NavLink to='/Login'>
-                <button>Login</button>
-            </NavLink> 
             <NavLink to='/MapList'>
                 <button>Find a Table</button>
             </NavLink>      
             <NavLink to='/Profile'>
                 <button>Profile</button>
             </NavLink>
-            <NavLink to='/'>
+            <NavLink to='/Login'>
                 <button>Logout</button>
             </NavLink>
         

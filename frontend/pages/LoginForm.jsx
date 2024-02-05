@@ -20,6 +20,9 @@ function LoginForm() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login Successful:', data);
+                
+                // Navigate to the maplist page
+                window.location.href = '/maplist'; // Assuming '/maplist' is the route for the maplist page
             } else {
                 console.error('Error logging in:', response.statusText);
             }
@@ -30,7 +33,13 @@ function LoginForm() {
 
     return (
         <div>
-            <Header/>
+            <div>
+                <img
+                    src="/assets/BiteBid.png"
+                    width="20%"
+                    alt="Bite Bid"
+                />  
+            </div>
             <form id='login-form' onSubmit={handleLoginSubmit}>
                 <label className='login-text'>Username:</label>
                 <input
