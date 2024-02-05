@@ -158,7 +158,7 @@ def book_restaurant():
 def login():
     data = request.json
 
-    user = User.query.filter(User.password == data.get('password')).first()
+    user = User.query.filter(User.user_name == data.get('user_name')).first()
 
     if user and bcrypt.check_password_hash(user.password_hash, data.get('password')):
         session["user_id"] = user.id

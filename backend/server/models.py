@@ -12,9 +12,11 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)  # New column for password
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
+        self.password = password  # Store the password as well
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -23,6 +25,7 @@ class User(db.Model, SerializerMixin):
         return {
             'id': self.id,
             'user_name': self.user_name,
+            'password': self.password, 
             # You can choose not to include the password hash in the dictionary
             # 'password_hash': self.password_hash
         }
