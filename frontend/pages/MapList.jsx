@@ -129,8 +129,8 @@ const MapList = () => {
 
     return (
         <div>
-            <Header/>
-            {formVisible && ( // Render the form only if formVisible is true
+            <Header />
+            {formVisible && (
                 <div className="form-container">
                     <form id="party-size-form">
                         <label htmlFor="party-size">Enter Party Size (&lt;=10):</label>
@@ -148,29 +148,28 @@ const MapList = () => {
                 </div>
             )}
 
-            {loading ? ( // Conditionally render loading message
-                <p>Loading...</p>
-            ) : (
-                <div id="restaurantList">
+            {!loading ? (
+                <div id="restaurantList" className="centered-horizontally">
                     {restaurants.map((restaurant) => (
-                    <div key={restaurant.business_id} className="restaurant-container">
-                        <h3>{restaurant.name}</h3>
-                        <p>{restaurant.full_address}</p>
-                        <p>Bid amount: ${restaurant.bid_per_person*partySize}, bid per person: ${restaurant.bid_per_person}</p>
-                        <label htmlFor={`bid-${restaurant.business_id}`}>Bid Amount: </label>
-                        <input
-                            type="number"
-                            id={`bid-${restaurant.business_id}`}
-                            name={`bid-${restaurant.business_id}`}
-                            placeholder="Enter bid amount"
-                            min={restaurant.bid_per_person * partySize + 10}
-                        />
-                        <button onClick={() => handleBookButtonClick(restaurant, partySize)}>Book</button>
-                        {errorMessages[restaurant.business_id] && <p style={{ color: 'red' }}>{errorMessages[restaurant.business_id]}</p>}
-
-        </div>
-    ))}
+                        <div key={restaurant.business_id} className="restaurant-container">
+                            <h3>{restaurant.name}</h3>
+                            <p>{restaurant.full_address}</p>
+                            <p>Bid amount: ${restaurant.bid_per_person * partySize}, bid per person: ${restaurant.bid_per_person}</p>
+                            <label htmlFor={`bid-${restaurant.business_id}`}>Bid Amount: </label>
+                            <input
+                                type="number"
+                                id={`bid-${restaurant.business_id}`}
+                                name={`bid-${restaurant.business_id}`}
+                                placeholder="Enter bid amount"
+                                min={restaurant.bid_per_person * partySize + 10}
+                            />
+                            <button onClick={() => handleBookButtonClick(restaurant, partySize)}>Book</button>
+                            {errorMessages[restaurant.business_id] && <p style={{ color: 'red' }}>{errorMessages[restaurant.business_id]}</p>}
+                        </div>
+                    ))}
                 </div>
+            ) : (
+                <p>Loading...</p>
             )}
         </div>
     );
