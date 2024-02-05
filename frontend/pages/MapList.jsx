@@ -80,6 +80,27 @@ const MapList = () => {
             console.error('Error booking restaurant:', error);
         }
     };
+
+    const handleBookButtonClick = (restaurant, partySize) => {
+        const bidInput = document.getElementById(`bid-${restaurant.business_id}`);
+        const newBidAmount = parseInt(bidInput.value, 10);
+    
+        if (isNaN(newBidAmount)) {
+            console.error('Please enter a valid bid amount.');
+            return;
+        }
+    
+        const currentBidPerPerson = restaurant.bid_per_person;
+        const minimumBidAmount = currentBidPerPerson * partySize + 10;
+    
+        if (newBidAmount < minimumBidAmount) {
+            console.error('Bid amount must be at least $10 more than the current bid amount.');
+            return;
+        }
+    
+        // Proceed with booking if bid amount is valid
+        bookRestaurant(restaurant, partySize, newBidAmount);
+    };
     
 
     return (
@@ -116,7 +137,7 @@ const MapList = () => {
                             placeholder="Enter bid amount"
                             min={restaurant.bid_per_person * partySize + 10}
                         />
-                        <button onClick={() => bookRestaurant(restaurant, partySize)}>Book</button>
+                        <button onClick={() => handleBookButtonClick(restaurant, partySize)}>Book</button>
 
         </div>
     ))}
