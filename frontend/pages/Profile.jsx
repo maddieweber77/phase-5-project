@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 import { useUser } from "../UserContext";
 
 const Profile = () => {
-    pass
-
     return (
         <div>
             <h1>Walk In Profile Page</h1>
+            <p>This is a dummy profile page.</p>
         </div>
     );
 };

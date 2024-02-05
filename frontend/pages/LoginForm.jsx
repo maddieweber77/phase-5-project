@@ -1,62 +1,58 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
+import Header from "../components/Header";
 
 function LoginForm() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    // could be used for Sign up page, include Post request to profile
-    // Login needs to be checked against username and password stored in the backend
-
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-
-    function handleLoginSubmit(e) {
+    async function handleLoginSubmit(e) {
         e.preventDefault();
 
-        const response = 
-            fetch('https//localhost:5555/login', {
+        try {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
-                    'content-type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(username, password)
-            })
+                body: JSON.stringify({ username: username, password: password })
+            });
 
-            
-            if (response.success){
-                return "Login Successful"
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login Successful:', data);
             } else {
-                return Error("Incorrect Login Info")
+                console.error('Error logging in:', response.statusText);
             }
-            
-        };
+        } catch (error) {
+            console.error('Error logging in:', error);
+        }
+    }
 
-    return(
-        <form id='login-form' 
-        onSubmit={handleLoginSubmit}
-        >
-            <label className='login-text'>
-            Username:
-            </label>
-            <input
-                type='text'
-                placeholder="Enter your username"
-                className='login-input'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <label className='login-text'>
-            Password:
-            </label>
-            <input
-                type='password'
-                placeholder="Enter your password"
-                className='login-input'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button id='login-submit-button' type='submit'>Submit</button>
-        </form>
-    )
-    };
+    return (
+        <div>
+            <Header/>
+            <form id='login-form' onSubmit={handleLoginSubmit}>
+                <label className='login-text'>Username:</label>
+                <input
+                    type='text'
+                    placeholder="Enter your username"
+                    className='login-input'
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <label className='login-text'>Password:</label>
+                <input
+                    type='password'
+                    placeholder="Enter your password"
+                    className='login-input'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button id='login-submit-button' type='submit'>Submit</button>
+            </form>
+        </div>
+        
+    );
+}
 
 export default LoginForm;
