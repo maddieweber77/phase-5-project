@@ -97,14 +97,15 @@ const MapList = () => {
             {loading ? ( // Conditionally render loading message
                 <p>Loading...</p>
             ) : (
-                <ul id="restaurantList">
+                <div id="restaurantList">
                     {restaurants.map((restaurant) => (
-                        <li key={restaurant.business_id}>
-                            {restaurant.name} - {restaurant.full_address}
+                        <div key={restaurant.business_id} className="restaurant-container">
+                            <h3>{restaurant.name}</h3>
+                            <p>{restaurant.full_address}</p>
                             <button onClick={() => bookRestaurant(restaurant, partySize)}>Book</button>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );
