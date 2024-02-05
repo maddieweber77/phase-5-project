@@ -20,6 +20,8 @@ const MapList = () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const { latitude, longitude } = position.coords;
+                    console.log("lat and long")
+                    console.log(latitude, longitude)
                     const response = await fetch('/api/get_restaurants', {
                         method: 'POST',
                         headers: {
@@ -29,7 +31,7 @@ const MapList = () => {
                     });
                     const data = await response.json();
                     setRestaurants(data);
-                    setLoading(false); // Set loading to false after data is fetched
+                    setLoading(false); 
                 }, (error) => {
                     console.error('Error getting location:', error);
                     setLoading(false); // Set loading to false if there's an error
@@ -51,6 +53,7 @@ const MapList = () => {
     };
 
     const bookRestaurant = async (restaurant, partySize) => {
+        const bidAmount = document.getElementById(`bid-${restaurant.business_id}`).value;
         const bookingDateTime = new Date();
         console.log("bookRestaurant time stamp:", bookingDateTime)
         try {
@@ -63,7 +66,8 @@ const MapList = () => {
                     businessId: restaurant.business_id,
                     restaurantName: restaurant.name,
                     party_size: partySize, // Use the partySize parameter here
-                    time_stamp: bookingDateTime
+                    bid_amount: bidAmount,
+                    time_stamp: bookingDateTime,
                 }),
             });
     
@@ -76,6 +80,7 @@ const MapList = () => {
             console.error('Error booking restaurant:', error);
         }
     };
+    
 
     return (
         <div>
@@ -109,9 +114,10 @@ const MapList = () => {
                             id={`bid-${restaurant.business_id}`}
                             name={`bid-${restaurant.business_id}`}
                             placeholder="Enter bid amount"
-                            min="0"
+                            min={restaurant.bid_per_person * partySize + 10}
                         />
                         <button onClick={() => bookRestaurant(restaurant, partySize)}>Book</button>
+
         </div>
     ))}
                 </div>

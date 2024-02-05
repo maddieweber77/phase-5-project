@@ -5,6 +5,9 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 
+#! need to add validation!!!
+#!
+#!
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -42,5 +45,6 @@ class RestaurantBooking(db.Model, SerializerMixin):
     restaurant_name = db.Column(db.String, nullable=False)
     party_size = db.Column(db.Integer)
     time_stamp = db.Column(db.String)
+    bid_amount = db.Column(db.Integer)
 
 
