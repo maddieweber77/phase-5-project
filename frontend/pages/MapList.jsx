@@ -11,8 +11,9 @@ const MapList = () => {
     const [errorMessages, setErrorMessages] = useState({});
     const [restaurants, setRestaurants] = useState([]);
     const {user, setUser} = useUser()
-    const [loading, setLoading] = useState(false); // Add loading state
     const [partySize, setPartySize] = useState(1);
+    const [loading, setLoading] = useState(false); // Add loading state
+    const [formVisible, setFormVisible] = useState(true); // State to manage form visibility
 
 
     const handleGetLocation = async () => {
@@ -129,22 +130,23 @@ const MapList = () => {
     return (
         <div>
             <Header/>
-            <div class="form-container">
-                <form id="party-size-form">
-                    <label htmlFor="party-size">Enter Party Size</label> 
-                    <label htmlFor="party-size">(&lt;=10)</label>
-                    <input 
-                        type="number" 
-                        id="party-size" 
-                        name="party-size" 
-                        min="1" 
-                        value={partySize} 
-                        onChange={handlePartySizeChange} 
-                        required 
-                    />
-                    <button id="getLocationBtn" type="button" onClick={handleGetLocation}>See Restaurants</button>
-                </form>
-            </div>
+            {formVisible && ( // Render the form only if formVisible is true
+                <div className="form-container">
+                    <form id="party-size-form">
+                        <label htmlFor="party-size">Enter Party Size (&lt;=10):</label>
+                        <input
+                            type="number"
+                            id="party-size"
+                            name="party-size"
+                            min="1"
+                            value={partySize}
+                            onChange={handlePartySizeChange}
+                            required
+                        />
+                        <button id="getLocationBtn" type="button" onClick={() => { handleGetLocation(); setFormVisible(false); }}>See Restaurants</button>
+                    </form>
+                </div>
+            )}
 
             {loading ? ( // Conditionally render loading message
                 <p>Loading...</p>
