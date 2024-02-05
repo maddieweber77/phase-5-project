@@ -14,6 +14,7 @@ app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  # Update with your database URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'your_secret_key_here'
 
 db.init_app(app)  # Initialize db with app context
 migrate = Migrate(app, db)
@@ -158,12 +159,11 @@ def book_restaurant():
 def login():
     data = request.json
 
-    user = User.query.filter(User.user_name == data.get('user_name')).first()
+    user = User.query.filter(User.user_name == data.get('username')).first()
 
     if user and bcrypt.check_password_hash(user.password_hash, data.get('password')):
         session["user_id"] = user.id
         print("success")
-
         return user.to_dict(), 200
     else:
         return {"error": "Invalid username or password"}, 401
