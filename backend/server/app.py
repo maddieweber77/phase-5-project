@@ -139,6 +139,7 @@ def book_restaurant():
     business_id = data.get('businessId')
     restaurant_name = data.get('restaurantName')
     party_size = data.get('party_size')
+    time_stamp = data.get('time_stamp')
 
     DEFAULT_USER_ID = 1
 
@@ -147,7 +148,7 @@ def book_restaurant():
     user_id = get_current_user_id()  or DEFAULT_USER_ID # Implement this function based on your setup
 
     # Assuming you have a RestaurantBooking model for the database table
-    booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name, party_size=party_size)
+    booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name, party_size=party_size, time_stamp=time_stamp)
     db.session.add(booking)
     db.session.commit()
 
