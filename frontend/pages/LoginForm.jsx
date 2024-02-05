@@ -33,12 +33,14 @@ function LoginForm() {
 
     return (
         <div>
-            <div>
+            <div className="header-container">
+            <div className="logo-container">
                 <img
                     src="/assets/BiteBid.png"
-                    width="20%"
+                    width="100%"
                     alt="Bite Bid"
-                />  
+                />
+            </div>
             </div>
             <form id='login-form' onSubmit={handleLoginSubmit}>
                 <label className='login-text'>Username:</label>
