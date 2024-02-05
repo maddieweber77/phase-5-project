@@ -130,7 +130,7 @@ const MapList = () => {
         <div>
             <Header/>
             <form id="party-size-form">
-                <label htmlFor="party-size">Party Size:</label>
+                <label htmlFor="party-size">Party Size (&gt;=10): </label>
                 <input 
                     type="number" 
                     id="party-size" 
