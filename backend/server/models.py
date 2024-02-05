@@ -23,6 +23,6 @@ class RestaurantBooking(db.Model, SerializerMixin):
     business_id = db.Column(db.String, nullable=False)
     restaurant_name = db.Column(db.String, nullable=False)
     #! add party size. make sure you can do other things than 2
-    party_size = db.Column(db.Integer, default = 2)
+    party_size = db.Column(db.Integer)
 
     # Define other columns for the RestaurantBooking table
