@@ -1,3 +1,6 @@
+/*!!!!!!!!!!!!!! HEADER !!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/*!!!!!!!!!!!!!! HEADER !!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
 .header-container {
     display: flex;
     flex-direction: column; /* Stack items vertically */
@@ -28,4 +31,54 @@
 
 .button-container button:hover {
     background-color: #0056b3; /* Darker blue color on hover */
+}
+
+
+
+
+
+
+/*!!!!!!!!!!!!!! MAPLIST !!!!!!!!!!!!!!!!!!!!!!!!!!*/
+/* CSS for form container */
+.form-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* CSS for restaurant container */
+.restaurant-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Additional CSS for input fields, buttons, etc. */
+.restaurant-container input[type="number"],
+.form-container input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.restaurant-container button,
+.form-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0965b;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.restaurant-container button:hover,
+.form-container button:hover {
+    background-color: #0056b3;
 }
