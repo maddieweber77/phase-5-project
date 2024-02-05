@@ -143,6 +143,19 @@ body {
     border-top-right-radius: 0; /* Straight top right corner */
 }
 
+#login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    max-width: 400px;
+
+}
+
 .login-input {
     padding: 8px;
     margin-bottom: 10px;
