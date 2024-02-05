@@ -33,12 +33,43 @@
     background-color: #0056b3; /* Darker blue color on hover */
 }
 
-
-
-
-
-
 /*!!!!!!!!!!!!!! MAPLIST !!!!!!!!!!!!!!!!!!!!!!!!!!*/
+body {
+    font-family: Calibri, sans-serif;
+}
+
+#party-size-form {
+    font-family: Calibri, sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+#party-size-form label {
+    margin-right: 10px;
+}
+
+#party-size-form input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Calibri, sans-serif;
+}
+
+#party-size-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #55cb6f;
+    color: white;
+    font-family: Calibri, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#party-size-form button:hover {
+    background-color: #0056b3;
+}
+
 /* CSS for form container */
 .form-container {
     padding: 20px;
