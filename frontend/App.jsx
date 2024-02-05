@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 // import './index.css'
 import MapList from './pages/MapList';
 import { UserProvider } from './UserContext';
+import './App.css'
 
 function App() {
   return (

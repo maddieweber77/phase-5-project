@@ -1,0 +1,31 @@
+.header-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.logo-container img {
+    max-width: 200px; /* Limit the logo size */
+}
+
+.button-container {
+    margin-top: 20px; /* Add space between logo and buttons */
+}
+
+.button-container button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Blue color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+.button-container button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}
