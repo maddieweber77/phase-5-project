@@ -26,15 +26,15 @@ if __name__ == '__main__':
             ]
 
             for data in users_data:
-                new_user = User(user_name=data["username"], password=data["password"])
-                password_hash = bcrypt.generate_password_hash(data["password"])
-                new_user.password_hash = password_hash
+                new_user = User(user_name=data["username"])
+                new_user.set_password(data["password"])
                 db.session.add(new_user)
 
             # Commit changes to the database
             db.session.commit()
 
         print("Seeding complete..")
+
 
 
 #! uncomment below if you want faker data

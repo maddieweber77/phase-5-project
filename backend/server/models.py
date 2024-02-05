@@ -3,14 +3,29 @@ from sqlalchemy import MetaData, func
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(255))  # Define the user_name attribute
-    password = db.Column(db.String(255))   # Add other necessary attributes/columns
+    user_name = db.Column(db.String(255), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_name': self.user_name,
+            # You can choose not to include the password hash in the dictionary
+            # 'password_hash': self.password_hash
+        }
 
     # Establish one-to-many relationship with RestaurantBooking
     bookings = db.relationship('RestaurantBooking', backref='user', lazy=True)
