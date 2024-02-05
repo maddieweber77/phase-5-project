@@ -123,10 +123,10 @@ body {
 
 /*!!!!!!!!!!!!!! Login Form !!!!!!!!!!!!!!!!!!!!!!!!!!*/
 /* Container for the login form */
-.login-container {
+.page-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center horizontally */
     height: 100vh; /* Full viewport height */
 }
 
@@ -143,15 +143,13 @@ body {
     border-top-right-radius: 0; /* Straight top right corner */
 }
 
-.login-text {
-    margin-bottom: 10px;
-}
-
 .login-input {
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    width: 100%; /* Full width */
+    max-width: 300px; /* Limit input width */
 }
 
 #login-submit-button {
