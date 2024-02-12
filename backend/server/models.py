@@ -46,6 +46,7 @@ class RestaurantBooking(db.Model):
     party_size = db.Column(db.Integer)
     time_stamp = db.Column(db.String)
     bid_amount = db.Column(db.Integer)
+    review = db.Column(db.Integer)
 
     def to_dict(self):
         return {
@@ -54,7 +55,8 @@ class RestaurantBooking(db.Model):
             'restaurant_name': self.restaurant_name,
             'party_size': self.party_size,
             'bid_amount': self.bid_amount,
-            'time_stamp': self.time_stamp
+            'time_stamp': self.time_stamp,
+            'review': self.review
         }
 
 

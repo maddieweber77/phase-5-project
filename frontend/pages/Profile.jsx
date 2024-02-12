@@ -38,6 +38,15 @@ const Profile = () => {
         return formattedTime;
     };
 
+     // Function to check if reservation is more than 3 hours older than current time
+     const isReservationOld = (timeStamp) => {
+        const threeHours = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+        const reservationTime = new Date(timeStamp).getTime();
+        const currentTime = new Date().getTime();
+        return currentTime - reservationTime > threeHours;
+    };
+
+
 
     return (
         <div>
@@ -46,11 +55,14 @@ const Profile = () => {
             <h2>Reservations</h2>
             <ul>
                 {reservations.map(reservation => (
-                    <div>
-                        <h3>{reservation.restaurant_name}</h3>
-                        <p>Party Size: {reservation.party_size}</p>
-                        <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
-                    </div>
+                <div key={reservation.id}>
+                    <h3>{reservation.restaurant_name}</h3>
+                    <p>Party Size: {reservation.party_size}</p>
+                    <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
+                    {isReservationOld(reservation.time_stamp) && (
+                        <button>Review</button>
+                    )}
+                </div>
                 ))}
             </ul>
         </div>
