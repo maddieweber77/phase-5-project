@@ -25,6 +25,39 @@ const Profile = () => {
             });
     }, []);
 
+    //!!!!!!!!!!!!!!!!!!!!
+    // star rating system
+    //!!!!!!!!!!!!!!!!!!!!
+
+    const [selectedRating, setSelectedRating] = useState(0);
+
+    const handleStarClick = (rating) => {
+        setSelectedRating(rating);
+    };
+
+    const submitRating = (restaurantId, rating) => {
+        // Send the rating to the backend
+        fetch(`/api/restaurant/${restaurantId}/rate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ rating }),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Rating submitted successfully.');
+                // Update the reservations data to reflect the new rating
+                // You may need to fetch the updated data from the server
+            } else {
+                throw new Error('Failed to submit rating');
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting rating:', error);
+        });
+    };
+
     const formatBookingTime = (timeStamp) => {
         const formattedTime = new Date(timeStamp).toLocaleDateString('en-US', {
             weekday: 'long',
@@ -55,14 +88,21 @@ const Profile = () => {
             <h2>Reservations</h2>
             <ul>
                 {reservations.map(reservation => (
-                <div key={reservation.id}>
-                    <h3>{reservation.restaurant_name}</h3>
-                    <p>Party Size: {reservation.party_size}</p>
-                    <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
-                    {isReservationOld(reservation.time_stamp) && (
-                        <button>Review</button>
-                    )}
-                </div>
+                    <div key={reservation.id}>
+                        <h3>{reservation.restaurant_name}</h3>
+                        <p>Party Size: {reservation.party_size}</p>
+                        <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
+                        {[1, 2, 3, 4, 5].map(star => (
+                            <span
+                                key={star}
+                                onClick={() => handleStarClick(star)}
+                                style={{ cursor: 'pointer', color: star <= selectedRating ? 'gold' : 'gray' }}
+                            >
+                                &#9733;
+                            </span>
+                        ))}
+                        <button onClick={() => submitRating(reservation.restaurant_id, selectedRating)}>Submit Rating</button>
+                    </div>
                 ))}
             </ul>
         </div>
