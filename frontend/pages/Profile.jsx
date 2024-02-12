@@ -97,7 +97,6 @@ const Profile = () => {
                     <div key={reservation.id}>
                         <h3>{reservation.restaurant_name}</h3>
                         <p>Party Size: {reservation.party_size}</p>
-                        <p> Bus ID: {reservation.business_id}</p>
                         <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
                         {[1, 2, 3, 4, 5].map(star => (
                             <span
