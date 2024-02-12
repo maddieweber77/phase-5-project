@@ -66,9 +66,6 @@ def get_user_reservations():
 
 
 
-
-
-
 @app.delete('/api/logout')
 def logout():
 
@@ -165,6 +162,8 @@ def book_restaurant():
     party_size = data.get('party_size')
     bid_amount = data.get('bid_amount')
     time_stamp = data.get('time_stamp')
+    review = data.get('review')
+
     
 
     DEFAULT_USER_ID = 1
