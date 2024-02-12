@@ -50,6 +50,17 @@ def check_session():
 
     return {}
 
+@app.route('/api/profile/reservations', methods=['GET'])
+def get_user_reservations():
+    user_id = session.get('user_id')  # Assuming you store user ID in the session
+    if user_id is None:
+        return jsonify({'error': 'User not logged in'}), 401
+    
+    reservations = RestaurantBooking.query.filter_by(user_id=user_id).all()
+    reservations_data = [reservation.to_dict() for reservation in reservations]
+    
+    return jsonify(reservations_data), 200
+
 @app.delete('/api/logout')
 def logout():
 
