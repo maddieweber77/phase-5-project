@@ -85,6 +85,8 @@ const MapList = () => {
     
             if (response.ok) {
                 console.log('Restaurant booked successfully.');
+                // Navigate to the maplist page
+                window.location.href = '/profile'; // Assuming '/maplist' is the route for the maplist page
             } else {
                 console.error('Error booking restaurant:', response.statusText);
             }

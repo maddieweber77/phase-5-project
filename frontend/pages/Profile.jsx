@@ -25,6 +25,20 @@ const Profile = () => {
             });
     }, []);
 
+    const formatBookingTime = (timeStamp) => {
+        const formattedTime = new Date(timeStamp).toLocaleDateString('en-US', {
+            weekday: 'long',
+            month: 'short',
+            day: 'numeric'
+        }) + ' at ' + new Date(timeStamp).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+        return formattedTime;
+    };
+
+
     return (
         <div>
             <Header />
@@ -35,7 +49,7 @@ const Profile = () => {
                     <div>
                         <h3>{reservation.restaurant_name}</h3>
                         <p>Party Size: {reservation.party_size}</p>
-                        <p>Date / Time: {reservation.time_stamp}</p>
+                        <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
                     </div>
                 ))}
             </ul>
