@@ -32,9 +32,11 @@ const Profile = () => {
             <h2>Reservations</h2>
             <ul>
                 {reservations.map(reservation => (
-                    <li key={reservation.id}>
-                        Restaurant: {reservation.restaurant_name}, Party Size: {reservation.party_size}, Date: {reservation.time_stamp}
-                    </li>
+                    <div>
+                        <h3>{reservation.restaurant_name}</h3>
+                        <p>Party Size: {reservation.party_size}</p>
+                        <p>Date / Time: {reservation.time_stamp}</p>
+                    </div>
                 ))}
             </ul>
         </div>
