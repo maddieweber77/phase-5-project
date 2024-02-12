@@ -2,14 +2,14 @@ from extensions import db  # Import db from extensions.py
 from sqlalchemy import MetaData, func
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
-from sqlalchemy_serializer import SerializerMixin
+# from sqlalchemy_serializer import SerializerMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 #! need to add validation!!!
 #!
 #!
 
-class User(db.Model, SerializerMixin):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -36,7 +36,7 @@ class User(db.Model, SerializerMixin):
     # Establish one-to-many relationship with RestaurantBooking
     bookings = db.relationship('RestaurantBooking', backref='user', lazy=True)
 
-class RestaurantBooking(db.Model, SerializerMixin):
+class RestaurantBooking(db.Model):
     __tablename__ = 'restaurant_bookings'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -46,5 +46,12 @@ class RestaurantBooking(db.Model, SerializerMixin):
     party_size = db.Column(db.Integer)
     time_stamp = db.Column(db.String)
     bid_amount = db.Column(db.Integer)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'restaurant_name': self.restaurant_name
+        }
 
 
