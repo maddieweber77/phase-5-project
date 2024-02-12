@@ -51,7 +51,10 @@ class RestaurantBooking(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
-            'restaurant_name': self.restaurant_name
+            'restaurant_name': self.restaurant_name,
+            'party_size': self.party_size,
+            'bid_amount': self.bid_amount,
+            'time_stamp': self.time_stamp
         }
 
 
