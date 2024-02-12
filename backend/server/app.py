@@ -8,6 +8,7 @@ from dotenv import dotenv_values
 from models import User, RestaurantBooking
 import requests
 import random
+import urllib.parse 
 
 config = dotenv_values(".env")
 
@@ -50,9 +51,6 @@ def check_session():
 
     return {}
 
-#######################
-#! working on the below
-#######################
 @app.route('/api/profile/reservations', methods=['GET'])
 def get_user_reservations():
     user_id = session.get('user_id')
@@ -66,13 +64,17 @@ def get_user_reservations():
     
     return jsonify(reservations_data), 200
 
-@app.route('/api/restaurant/<int:business_id>/rate', methods=['PATCH'])
-def submit_rating(business_id):
+#######################
+#! working on the below
+#######################
+
+@app.route('/api/restaurant/<restaurant_name>/rate', methods=['PATCH'])
+def submit_rating(restaurant_name):
     data = request.json
     rating = data.get('rating')
     
     # Update the rating in the database for the specified restaurant
-    booking = RestaurantBooking.query.filter_by(id=business_id).first()
+    booking = RestaurantBooking.query.filter_by(restaurant_name=restaurant_name).first()
     if not booking:
         return jsonify({'error': 'Reservation not found'}), 404
     
@@ -80,6 +82,7 @@ def submit_rating(business_id):
     db.session.commit()
     
     return jsonify({'message': 'Rating submitted successfully'}), 200
+
 
 
 
@@ -179,7 +182,7 @@ def book_restaurant():
     party_size = data.get('party_size')
     bid_amount = data.get('bid_amount')
     time_stamp = data.get('time_stamp')
-    review = data.get('review')
+    rating = data.get('rating')
 
     
 
@@ -190,7 +193,7 @@ def book_restaurant():
     user_id = get_current_user_id()  or DEFAULT_USER_ID # Implement this function based on your setup
 
     # Assuming you have a RestaurantBooking model for the database table
-    booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name, party_size=party_size, bid_amount=bid_amount, time_stamp=time_stamp)
+    booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name, party_size=party_size, bid_amount=bid_amount, time_stamp=time_stamp, rating = rating)
     db.session.add(booking)
     db.session.commit()
 
