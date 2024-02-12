@@ -61,8 +61,25 @@ def get_user_reservations():
     
     reservations = RestaurantBooking.query.filter_by(user_id=user_id).all()
     reservations_data = [reservation.to_dict() for reservation in reservations]
+
+    # print("Structure of reservations_data:", reservations_data)
     
     return jsonify(reservations_data), 200
+
+@app.route('/api/restaurant/<int:business_id>/rate', methods=['PATCH'])
+def submit_rating(business_id):
+    data = request.json
+    rating = data.get('rating')
+    
+    # Update the rating in the database for the specified restaurant
+    booking = RestaurantBooking.query.filter_by(id=business_id).first()
+    if not booking:
+        return jsonify({'error': 'Reservation not found'}), 404
+    
+    booking.rating = rating
+    db.session.commit()
+    
+    return jsonify({'message': 'Rating submitted successfully'}), 200
 
 
 

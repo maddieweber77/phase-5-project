@@ -33,12 +33,14 @@ const Profile = () => {
 
     const handleStarClick = (rating) => {
         setSelectedRating(rating);
+        console.log("selectedRating",selectedRating)
     };
 
-    const submitRating = (restaurantId, rating) => {
-        // Send the rating to the backend
-        fetch(`/api/restaurant/${restaurantId}/rate`, {
-            method: 'POST',
+    const submitRating = (businessId, rating) => {
+        console.log('rating in submitrating', rating)
+        console.log('bus id', businessId)
+        fetch(`/api/restaurant/${businessId}/rate`, {
+            method: 'PATCH', 
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -47,11 +49,15 @@ const Profile = () => {
         .then(response => {
             if (response.ok) {
                 console.log('Rating submitted successfully.');
-                // Update the reservations data to reflect the new rating
-                // You may need to fetch the updated data from the server
+                // Refresh reservations after submitting rating
+                return fetch('/api/profile/reservations');
             } else {
                 throw new Error('Failed to submit rating');
             }
+        })
+        .then(response => response.json())
+        .then(data => {
+            setReservations(data); // Update reservations data
         })
         .catch(error => {
             console.error('Error submitting rating:', error);
@@ -91,6 +97,7 @@ const Profile = () => {
                     <div key={reservation.id}>
                         <h3>{reservation.restaurant_name}</h3>
                         <p>Party Size: {reservation.party_size}</p>
+                        <p> Bus ID: {reservation.business_id}</p>
                         <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
                         {[1, 2, 3, 4, 5].map(star => (
                             <span
@@ -101,7 +108,7 @@ const Profile = () => {
                                 &#9733;
                             </span>
                         ))}
-                        <button onClick={() => submitRating(reservation.restaurant_id, selectedRating)}>Submit Rating</button>
+                        <button onClick={() => submitRating(reservation.business_id, selectedRating)}>Submit Rating</button>
                     </div>
                 ))}
             </ul>
