@@ -19,11 +19,39 @@ const MapList = () => {
     const handleGetLocation = async () => {
         try {
             setLoading(true); // Set loading to true when fetching data
+    
+            // Fetch existing reservations
+            const response = await fetch('/api/profile/reservations');
+            if (!response.ok) {
+                throw new Error('Failed to fetch existing reservations');
+            }
+            const existingReservations = await response.json();
+            console.log('Existing reservations:', existingReservations);
+    
+            // Check for existing reservations within 90 minutes
+            const now = new Date();
+            const ninetyMinutesLater = new Date(now.getTime() + 90 * 60 * 1000); // Ninety minutes later
+            console.log('Current time:', now);
+            console.log('Ninety minutes later:', ninetyMinutesLater);
+            const reservationsWithinNinetyMinutes = existingReservations.filter(reservation => {
+                const reservationTime = new Date(reservation.time_stamp);
+                return reservationTime > now && reservationTime < ninetyMinutesLater;
+            });
+            console.log('Reservations within 90 minutes:', reservationsWithinNinetyMinutes);
+    
+            if (reservationsWithinNinetyMinutes.length > 0) {
+                setErrorMessages({
+                    reservations: 'You cannot fetch restaurants if you have a reservation within the next 90 minutes.'
+                });
+                setLoading(false); // Set loading to false
+                return;
+            }
+    
+            // Proceed to fetch restaurants
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const { latitude, longitude } = position.coords;
-                    console.log("lat and long")
-                    console.log(latitude, longitude)
+                    console.log('User location:', latitude, longitude);
                     const response = await fetch('/api/get_restaurants', {
                         method: 'POST',
                         headers: {
@@ -31,9 +59,14 @@ const MapList = () => {
                         },
                         body: `latitude=${latitude}&longitude=${longitude}`,
                     });
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch restaurants');
+                    }
                     const data = await response.json();
+                    console.log('Fetched restaurants:', data);
                     setRestaurants(data);
-                    setLoading(false); 
+                    setLoading(false);
+                    setFormVisible(false);
                 }, (error) => {
                     console.error('Error getting location:', error);
                     setLoading(false); // Set loading to false if there's an error
@@ -47,6 +80,8 @@ const MapList = () => {
             setLoading(false); // Set loading to false if there's an error
         }
     };
+    
+    
     
     const handlePartySizeChange = (e) => {
     const newSize = parseInt(e.target.value, 10); // Parse the value as an integer
