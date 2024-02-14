@@ -34,8 +34,20 @@ const MapList = () => {
             console.log('Current time:', now);
             console.log('Ninety minutes later:', ninetyMinutesLater);
             const reservationsWithinNinetyMinutes = existingReservations.filter(reservation => {
-                const reservationTime = new Date(reservation.time_stamp);
-                return reservationTime > now && reservationTime < ninetyMinutesLater;
+                // Convert timestamp to JavaScript Date object
+                const parsedTimestamp = new Date(reservation.time_stamp);
+                // Format the timestamp into a string
+                const formattedTimestamp = parsedTimestamp.toLocaleString("en-US", {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true,
+                });
+                console.log('Formatted timestamp:', formattedTimestamp);
+    
+                return parsedTimestamp > now && parsedTimestamp < ninetyMinutesLater;
             });
             console.log('Reservations within 90 minutes:', reservationsWithinNinetyMinutes);
     
@@ -80,6 +92,8 @@ const MapList = () => {
             setLoading(false); // Set loading to false if there's an error
         }
     };
+    
+    
     
     
     
