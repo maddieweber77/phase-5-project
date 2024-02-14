@@ -96,16 +96,22 @@ const Profile = () => {
                         <h3>{reservation.restaurant_name}</h3>
                         <p>Party Size: {reservation.party_size}</p>
                         <p>Date / Time: {formatBookingTime(reservation.time_stamp)}</p>
-                        {[1, 2, 3, 4, 5].map(star => (
-                            <span
-                                key={star}
-                                onClick={() => handleStarClick(reservation.id, star)}
-                                style={{ cursor: 'pointer', color: star <= ratings[reservation.id] ? 'gold' : 'gray' }}
-                            >
-                                &#9733;
-                            </span>
-                        ))}
-                        <button onClick={() => submitRating(reservation.id, reservation.business_id)}>Submit Rating</button>
+                        {reservation.rating !== null ? (
+                            <p>Rating: {reservation.rating} stars</p>
+                        ) : (
+                            <>
+                                {[1, 2, 3, 4, 5].map(star => (
+                                    <span
+                                        key={star}
+                                        onClick={() => handleStarClick(reservation.id, star)}
+                                        style={{ cursor: 'pointer', color: star <= ratings[reservation.id] ? 'gold' : 'gray' }}
+                                    >
+                                        &#9733;
+                                    </span>
+                                ))}
+                                <button onClick={() => submitRating(reservation.id, reservation.business_id)}>Submit Rating</button>
+                            </>
+                        )}
                     </div>
                 ))}
             </ul>
