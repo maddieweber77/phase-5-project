@@ -25,18 +25,18 @@ const Profile = () => {
             });
     }, []);
 
-    //!!!!!!!!!!!!!!!!!!!!
-    // star rating system
-    //!!!!!!!!!!!!!!!!!!!!
+    // State to store ratings for each reservation
+    const [ratings, setRatings] = useState({});
 
-    const [selectedRating, setSelectedRating] = useState(0);
-
-    const handleStarClick = (rating) => {
-        setSelectedRating(rating);
-        console.log("selectedRating",selectedRating)
+    const handleStarClick = (reservationId, rating) => {
+        setRatings(prevRatings => ({
+            ...prevRatings,
+            [reservationId]: rating
+        }));
     };
 
-    const submitRating = (businessId, rating) => {
+    const submitRating = (reservationId, businessId) => {
+        const rating = ratings[reservationId];
         console.log('rating in submitrating', rating)
         console.log('bus id', businessId)
         fetch(`/api/restaurant/${businessId}/rate`, {
@@ -77,15 +77,13 @@ const Profile = () => {
         return formattedTime;
     };
 
-     // Function to check if reservation is more than 3 hours older than current time
-     const isReservationOld = (timeStamp) => {
+    // Function to check if reservation is more than 3 hours older than current time
+    const isReservationOld = (timeStamp) => {
         const threeHours = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
         const reservationTime = new Date(timeStamp).getTime();
         const currentTime = new Date().getTime();
         return currentTime - reservationTime > threeHours;
     };
-
-
 
     return (
         <div>
@@ -101,13 +99,13 @@ const Profile = () => {
                         {[1, 2, 3, 4, 5].map(star => (
                             <span
                                 key={star}
-                                onClick={() => handleStarClick(star)}
-                                style={{ cursor: 'pointer', color: star <= selectedRating ? 'gold' : 'gray' }}
+                                onClick={() => handleStarClick(reservation.id, star)}
+                                style={{ cursor: 'pointer', color: star <= ratings[reservation.id] ? 'gold' : 'gray' }}
                             >
                                 &#9733;
                             </span>
                         ))}
-                        <button onClick={() => submitRating(reservation.business_id, selectedRating)}>Submit Rating</button>
+                        <button onClick={() => submitRating(reservation.id, reservation.business_id)}>Submit Rating</button>
                     </div>
                 ))}
             </ul>
