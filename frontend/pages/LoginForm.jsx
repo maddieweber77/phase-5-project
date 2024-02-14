@@ -33,7 +33,17 @@ function LoginForm() {
 
     return (
         <div>
-            <Header />
+            <div className="header-container">
+            <div className="logo-container">
+                <img
+                    src="/assets/BiteBid.png"
+                    width="100%"
+                    alt="Bite Bid"
+                />
+            </div>
+            <div className="button-container">
+            </div>
+        </div>
             <div className="page-container"> {/* Apply container style to center content */}
             <div className="form-container"> {/* Apply form container style */}
                 <form id='login-form' onSubmit={handleLoginSubmit}>
