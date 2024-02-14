@@ -68,13 +68,13 @@ def get_user_reservations():
 #! working on the below
 #######################
 
-@app.route('/api/restaurant/<restaurant_name>/rate', methods=['PATCH'])
-def submit_rating(restaurant_name):
+@app.route('/api/restaurant/<business_id>/rate', methods=['PATCH'])
+def submit_rating(business_id):
     data = request.json
     rating = data.get('rating')
     
     # Update the rating in the database for the specified restaurant
-    booking = RestaurantBooking.query.filter_by(restaurant_name=restaurant_name).first()
+    booking = RestaurantBooking.query.filter_by(business_id=business_id).first()
     if not booking:
         return jsonify({'error': 'Reservation not found'}), 404
     
@@ -193,7 +193,7 @@ def book_restaurant():
     user_id = get_current_user_id()  or DEFAULT_USER_ID # Implement this function based on your setup
 
     # Assuming you have a RestaurantBooking model for the database table
-    booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name, party_size=party_size, bid_amount=bid_amount, time_stamp=time_stamp, rating = rating)
+    booking = RestaurantBooking(user_id=user_id, business_id=business_id, restaurant_name=restaurant_name, party_size=party_size, bid_amount=bid_amount, time_stamp=time_stamp, rating=rating)
     db.session.add(booking)
     db.session.commit()
 

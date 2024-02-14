@@ -35,11 +35,11 @@ const Profile = () => {
         }));
     };
 
-    const submitRating = (reservationId, businessId) => {
+    const submitRating = (reservationId, business_id) => {
         const rating = ratings[reservationId];
         console.log('rating in submitrating', rating)
-        console.log('bus id', businessId)
-        fetch(`/api/restaurant/${businessId}/rate`, {
+        console.log('bus id', business_id)
+        fetch(`/api/restaurant/${business_id}/rate`, {
             method: 'PATCH', 
             headers: {
                 'Content-Type': 'application/json',

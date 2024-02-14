@@ -7,6 +7,7 @@ if __name__ == '__main__':
         # Create a Bcrypt object within the app context
         bcrypt = Bcrypt()
 
+
         print("Clearing db...")
         with app.app_context():
             # Drop all tables
